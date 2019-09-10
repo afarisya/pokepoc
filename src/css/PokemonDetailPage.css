@@ -1,0 +1,50 @@
+.pokemon-detail-first-col {
+    padding: 20px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.pokemon-detail-second-col {
+    padding: 20px;
+    background-color: #fff;
+}
+
+.pokemon-pictures-carousel img {
+    width: 200px;
+    max-width: 100%;
+}
+
+#pokemon-detail-name {
+    margin-bottom: 20px;
+}
+
+.catch-btn {
+    margin-bottom: 20px;
+}
+
+#catch-pokemon-modal {
+    text-align: center;
+}
+
+#catch-pokemon-modal .modal-body h5,
+#catch-pokemon-modal .modal-body div, 
+#catch-pokemon-modal .modal-body input {
+    margin-bottom: 15px;
+}
+
+#catch-pokemon-modal button {
+    margin: 0 10px 5px;
+}
+
+.pokemon-detail-types,
+.pokemon-detail-moves {
+    margin-bottom: 20px;
+}
+
+.pokemon-detail-types .badge,
+.pokemon-detail-moves .badge {
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    padding-bottom: 8px;
+}
