@@ -75,10 +75,10 @@ class Header extends React.Component {
                         PocketPoc
                     </Default>
                     <Mobile>
-                        { this.state.latestUrl.indexOf("my-pokemons") > -1 ?
+                        { this.state.latestUrl.indexOf("/my-pokemons") > -1 ?
                                 "My Pokemons"
                             :
-                            ( this.state.latestUrl.indexOf("pokemons") > -1 ?
+                            ( this.state.latestUrl.indexOf("/pokemons") > -1 ?
                                 "All Pokemons"
                                 : 
                                 "Pokemon"
@@ -90,10 +90,30 @@ class Header extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <NavLink><Link to="/pokemons" onClick={this.closeCollapse}>All Pokemons</Link></NavLink>
+                        <NavLink>
+                            <Link 
+                                to="/pokemons" 
+                                style={{
+                                    fontWeight: this.state.latestUrl.indexOf("/pokemons") > -1 ? "700" : "normal"
+                                }} 
+                                onClick={this.closeCollapse}
+                            >
+                                All Pokemons
+                            </Link>
+                        </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink><Link to="/my-pokemons" onClick={this.closeCollapse}>My Pokemons</Link></NavLink>
+                        <NavLink>
+                            <Link 
+                                to="/my-pokemons" 
+                                style={{
+                                    fontWeight: this.state.latestUrl.indexOf("/my-pokemons") > -1 ? "700" : "normal"
+                                }}
+                                onClick={this.closeCollapse}
+                            >
+                                My Pokemons
+                            </Link>
+                        </NavLink>
                     </NavItem>
                     </Nav>
                 </Collapse>
