@@ -5,11 +5,13 @@ body {
 .App {
   text-align: center;
   padding-top: 100px;
+  padding-bottom: 50px;
 }
 
 @media(max-width: 767px) {
   .App {
     padding-top: 56px;
+    padding-bottom: 0;
   }
 }
 
@@ -86,4 +88,9 @@ body {
 
 .pokemon-nickname {
   color: #ff1c1c !important;
+}
+
+.badge {
+  font-size: 14px !important;
+  padding-bottom: 8px !important;
 }

@@ -82,35 +82,44 @@ class MyPokemonListPage extends React.Component {
         return (
             <div>
                 <Container>
-                    { this.props.pokemons.length === 0 ?
+                    { this.props.status !== "rcvMyPokemonList" ?
                         <Row className="pokemon-list-main-row">
                             <Spinner color="danger" style={{margin: "auto"}} />
                         </Row>
                         :
-                        <Row className="pokemon-list-main-row">
-                            {
-                                this.props.pokemons.map((pokemon) => {
-                                    return (
-                                        <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
-                                            <PokemonCard 
-                                                id={pokemon.pokemonId} 
-                                                name={pokemon.pokemonName} 
-                                                nickname={pokemon.pokemonNickname} 
-                                            />
-                                        </Col>
-                                    )
-                                })
-                            }
-                        </Row>
+                        ( this.props.pokemons.length === 0 ?
+                            <Row className="pokemon-list-main-row">
+                                <Col xs="12">You haven't catch any pokemon</Col>
+                            </Row>
+                            :
+                            <Row className="pokemon-list-main-row">
+                                {
+                                    this.props.pokemons.map((pokemon) => {
+                                        return (
+                                            <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
+                                                <PokemonCard 
+                                                    id={pokemon.pokemonId} 
+                                                    name={pokemon.pokemonName} 
+                                                    nickname={pokemon.pokemonNickname} 
+                                                />
+                                            </Col>
+                                        )
+                                    })
+                                }
+                            </Row>
+                        )
                     }
-                    <Row style={{padding: "0 13px"}}>
-                        <PokemonPagination 
-                            activePage={this.props.activePage}
-                            totalItems={this.props.totalPokemons}
-                            itemsPerPage={this.props.limit}
-                            onChange={this.handlePageChange}
-                        />
-                    </Row>
+                    { this.props.totalPokemons !== 0 ?
+                        <Row style={{padding: "0 13px"}}>
+                            <PokemonPagination 
+                                activePage={this.props.activePage}
+                                totalItems={this.props.totalPokemons}
+                                itemsPerPage={this.props.limit}
+                                onChange={this.handlePageChange}
+                            />
+                        </Row>
+                        : null
+                    }
                 </Container>
             </div>
         );
@@ -119,6 +128,7 @@ class MyPokemonListPage extends React.Component {
 
 function mapStateToProps(state) {
 	return {
+		status          : state.MyPokemonListReducers.status,
 		activePage      : state.MyPokemonListReducers.activePage,
 		offset          : state.MyPokemonListReducers.offset,
 		limit           : state.MyPokemonListReducers.limit,

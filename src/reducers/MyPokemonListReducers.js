@@ -16,6 +16,7 @@ WHY?
 // Action Types
 export const PAGE_CHANGE = "PAGE_CHANGE";
 export const OFFSET_CHANGE = "OFFSET_CHANGE";
+export const STATUS_CHANGE = "STATUS_CHANGE";
 
 export const RECEIVE_MY_POKEMON_LIST = "RECEIVE_MY_POKEMON_LIST";
 export const CLEAR_MY_POKEMON_LIST   = "CLEAR_MY_POKEMON_LIST";
@@ -44,8 +45,14 @@ const reqOffsetChange = offset => ({
     offset: offset
 });
 
+const reqStatusChange = status => ({
+    type: STATUS_CHANGE,
+    status: status
+});
+
 export const reqMyPokemonList = (page) => (dispatch, getState) => {
     dispatch(clearPokemons());
+    dispatch(reqStatusChange("reqMyPokemonList"));
     dispatch(reqPageChange(page));
 
     let offset  = (page - 1) * 10;
@@ -77,6 +84,8 @@ export const rcvMyPokemonList = data => (dispatch, getState) => {
         data.offset === getState().MyPokemonListReducers.offset &&
         data.limit  === getState().MyPokemonListReducers.limit 
     ) {
+        dispatch(reqStatusChange("rcvMyPokemonList"));
+
         var msg = {
             totalPokemons: data.count,
             pokemons: data.results      // [{name, url}]
@@ -96,6 +105,7 @@ export const clearPokemons = () => ({
 
 // Reducer's initial state
 const initialState = {
+    status: "",
     activePage: 1,
     offset: 0,
     limit: 10,
@@ -120,6 +130,12 @@ export default function MyPokemonListReducers(state = initialState, action) {
             return {
                 ...state,
                 offset: action.offset
+            };
+
+        case STATUS_CHANGE:
+            return {
+                ...state,
+                status: action.status
             };
 
         case RECEIVE_MY_POKEMON_LIST:
