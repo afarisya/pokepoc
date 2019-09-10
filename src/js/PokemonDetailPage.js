@@ -38,7 +38,8 @@ class PokemonDetailPage extends React.Component {
             items : [],
             nickname: "",
             tryToCatch: null,
-            catched: false
+            catched: false,
+            nicknameExist: false
         }
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -149,14 +150,22 @@ class PokemonDetailPage extends React.Component {
             pokemonNickname: this.state.nickname
         })
             .then(data => {
+                this.setState({
+                    nickname: ""
+                })
                 this.modalToggle();                
             })
             .catch(err => {
-                this.modalToggle();
+                this.setState({
+                    nicknameExist: true
+                })
             });
     }
 
     nicknameOnChange = (e) => {
+        this.setState({
+            nicknameExist: false
+        })
         this.setState({
             nickname: e.target.value
         })
@@ -204,10 +213,18 @@ class PokemonDetailPage extends React.Component {
                                             id="catch-pokemon-modal"
                                         >
                                             <ModalBody>
-                                                <h5>Pokemon <span style={{fontWeight: "bold"}}>{this.props.name}</span> catched!</h5>
-                                                <div>Give it a nickname</div>
+                                                { !this.state.nicknameExist ?
+                                                    <React.Fragment>
+                                                        <h5>Pokemon <span style={{fontWeight: "bold"}}>{this.props.name}</span> catched!</h5>
+                                                        <div>Give it a nickname</div>
+                                                    </React.Fragment>
+                                                    :
+                                                    <React.Fragment>
+                                                        <h5>You have had a pokemon nicknamed <span style={{fontWeight: "bold"}}>{this.state.nickname}</span></h5>
+                                                        <div>Give it another nickname</div>
+                                                    </React.Fragment>
+                                                }
                                                 <Input value={this.state.nickname} onChange={this.nicknameOnChange.bind(this)}/>
-                                            
                                                 <Button 
                                                     color="secondary"
                                                     onClick={this.modalToggle}

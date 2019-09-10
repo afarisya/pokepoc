@@ -39,10 +39,10 @@ request.onupgradeneeded = function (event) {
     var dataBase = event.target.result;
 
     var store = dataBase.createObjectStore("pokemons", { 
-                    keyPath: 'pokemonId'//, 
+                    keyPath: 'pokemonNickname'//, 
                     // autoIncrement: true 
                 });
-    store.createIndex('pokemonId', 'pokemonId', { unique: true });
+    store.createIndex('pokemonId', 'pokemonId', { unique: false });
     store.createIndex("pokemonName", "pokemonName", { unique: false });
 
 };
