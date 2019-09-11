@@ -39,11 +39,12 @@ request.onupgradeneeded = function (event) {
     var dataBase = event.target.result;
 
     var store = dataBase.createObjectStore("pokemons", { 
-                    keyPath: 'pokemonNickname'//, 
+                    keyPath: 'pokemonId'//,
                     // autoIncrement: true 
                 });
-    store.createIndex('pokemonId', 'pokemonId', { unique: false });
+    store.createIndex("pokemonId", "pokemonId", { unique: true });
     store.createIndex("pokemonName", "pokemonName", { unique: false });
+    store.createIndex("pokemonNickname", "pokemonNickname", { unique: false });
 
 };
 
@@ -68,19 +69,39 @@ export var getMyPokemonList = function(offset, limit){
                 if ( iterate >= offset && pokemons.length < limit ) {
                     pokemons.push(cursor.value);
                 }
-                // if ( pokemons.length === limit ) {
-                //     return pokemons;
-                // }
+
+                console.log(pokemons)
+                if ( pokemons.length === limit ) {
+                    getMyPokemonCount()
+                        .then((count) => {
+                            resolve(
+                                {
+                                    count: iterate,
+                                    pokemons: pokemons
+                                }
+                            );
+                        })
+                        .catch((err) => {
+                            reject("error")
+                        })
+                }
+
                 iterate+=1;
                 cursor.continue();
+
             } else {
-                console.log("Got all pokemons: " + pokemons);
-                resolve(
-                    {
-                        count: iterate,
-                        pokemons: pokemons
-                    }
-                );
+                getMyPokemonCount()
+                    .then((count) => {
+                        resolve(
+                            {
+                                count: iterate,
+                                pokemons: pokemons
+                            }
+                        );
+                    })
+                    .catch((err) => {
+                        reject("error")
+                    })
             }
         }
 
@@ -91,6 +112,41 @@ export var getMyPokemonList = function(offset, limit){
 
 
     // IDBKeyRange.bound(0, N, false, true);
+}
+
+export var getMyPokemonCount = function(){
+    return new Promise((resolve, reject) => {
+        var transaction = db.transaction(['pokemons'], 'readonly');
+        var objectStore = transaction.objectStore('pokemons');
+            
+        var countRequest = objectStore.count();
+
+        countRequest.onsuccess = function() {
+            console.log(countRequest.result)
+            resolve(countRequest.result);
+        }
+
+        countRequest.onerror = function(event) {
+            reject("error");
+        };
+    })
+}
+
+export var getPokemonById = function(id){
+    return new Promise((resolve, reject) => {
+        var transaction = db.transaction(["pokemons"]);
+        var objectStore = transaction.objectStore("pokemons");
+        var request = objectStore.get(id);
+        
+        request.onsuccess = function(event) {
+            // Do something with the request.result!
+            resolve(request.result);
+        };
+
+        request.onerror = function(event) {
+            reject("error");
+        };
+    })
 }
 
 export var addPokemon = function(obj){    
