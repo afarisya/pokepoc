@@ -76,18 +76,23 @@ class PokemonDetailPage extends React.Component {
     }
 
     renderData = (props) => {
-        var items = [
-            {
+        var items = [];
+
+        if ( props.pictures.front_default !== null ) {
+            items.push({
                 key: 1,
                 src: props.pictures.front_default,
                 altText: ''
-            },
-            {
-                key: 2,
+            });
+        }
+
+        if ( props.pictures.back_default !== null ) {
+            items.push({
+                key: 1,
                 src: props.pictures.back_default,
                 altText: ''
-            }
-        ];
+            });
+        }
 
         this.setState({
             items: items
