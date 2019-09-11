@@ -56,7 +56,7 @@ class PokemonCard extends React.Component {
                 })
             })
             .catch(error => {
-                console.log(error)
+                // console.log(error)
             });
     
     }
@@ -80,7 +80,7 @@ class PokemonCard extends React.Component {
                 store.dispatch(reqMyPokemonList(store.getState().MyPokemonListReducers.activePage))
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 this.modalToggle();
             });
     }

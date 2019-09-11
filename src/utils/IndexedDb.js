@@ -70,7 +70,7 @@ export var getMyPokemonList = function(offset, limit){
                     pokemons.push(cursor.value);
                 }
 
-                console.log(pokemons)
+                // console.log(pokemons)
                 if ( pokemons.length === limit ) {
                     getMyPokemonCount()
                         .then((count) => {
@@ -122,7 +122,7 @@ export var getMyPokemonCount = function(){
         var countRequest = objectStore.count();
 
         countRequest.onsuccess = function() {
-            console.log(countRequest.result)
+            // console.log(countRequest.result)
             resolve(countRequest.result);
         }
 

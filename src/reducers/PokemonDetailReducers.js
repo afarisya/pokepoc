@@ -96,13 +96,13 @@ export const reqPokemonDetail = (id) => (dispatch, getState) => {
 
     })
     .catch(error => {
-        console.log(error)
+        // console.log(error)
     });
 
 };
 
 export const rcvPokemonDetail = (data) => (dispatch, getState) => {
-    console.log(data)
+    // console.log(data)
     if ( 
         data.id === getState().PokemonDetailReducers.id
     ) {
@@ -141,13 +141,13 @@ export const reqPokemonPictures = (id) => (dispatch, getState) => {
             return _parseJSON(response);
         })
         .then(resp => {
-            console.log(resp)
+            // console.log(resp)
             resp["id"] = id;
 
             dispatch(rcvPokemonPictures(resp));
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         });
 };
 

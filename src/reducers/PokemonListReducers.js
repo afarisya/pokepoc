@@ -76,13 +76,13 @@ export const reqPokemonList = (page) => (dispatch, getState) => {
             return dispatch(rcvPokemonList(resp));
         })
         .catch(error => {
-            console.log(error)
+            // console.log(error)
         });
 
 };
 
 export const rcvPokemonList = (data) => (dispatch, getState) => {
-    console.log(data)
+    // console.log(data)
     if ( 
         data.offset === getState().PokemonListReducers.offset &&
         data.limit  === getState().PokemonListReducers.limit 

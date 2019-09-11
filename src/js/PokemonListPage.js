@@ -38,7 +38,7 @@ class PokemonListPage extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
+        // console.log(nextProps)
         if ( this.state.searchQuery !== nextProps.history.location.search ) {
             this.setState({
                 searchQuery: nextProps.history.location.search
@@ -84,9 +84,9 @@ class PokemonListPage extends React.Component {
                             </div>
                             <Row className="pokemon-list-main-row">
                                 {
-                                    this.props.pokemons.map((pokemon) => {
+                                    this.props.pokemons.map((pokemon, index) => {
                                         return (
-                                            <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
+                                            <Col key={index} className="pokemon-col" xs="6" sm="4" md="3" lg="2">
                                                 <PokemonCard id={pokemon.name} name={pokemon.name} />
                                             </Col>
                                         )

@@ -13,14 +13,14 @@ export default class PokemonPagination extends React.Component {
 		var itemsPerPage= this.props.itemsPerPage;
 
 		var totalPage = Math.ceil(totalItems/itemsPerPage);
-		console.log("totalPage: " + totalPage)
+		// console.log("totalPage: " + totalPage)
 		var pages = [];
 		for ( var i = 1; i <= totalPage; i++ ) {
 			pages.push(				
 				i
 			)
 		}
-		console.log(pages)
+		// console.log(pages)
 
 		var start;
 		var end;
@@ -41,8 +41,8 @@ export default class PokemonPagination extends React.Component {
 			pages = pages.slice(start, end)
 		}
 
-		console.log("start: " + start)
-		console.log(pages)
+		// console.log("start: " + start)
+		// console.log(pages)
 
 		return (
 			<div style={{marginBottom: "20px"}}>

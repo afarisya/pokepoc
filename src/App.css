@@ -45,6 +45,7 @@ body {
   }
 }
 
+/* Navbar */
 .navbar {
   background-color: #ff1c1c !important;
   color: #fff !important;
@@ -52,6 +53,10 @@ body {
 
 .navbar a {
   color: #fff !important;
+}
+
+.navbar a:hover {
+  text-decoration: underline !important;
 }
 
 .navbar-toggler {
@@ -63,6 +68,8 @@ body {
   color: #fff !important;
 }
 
+
+/* Card */
 .card {
   box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
   border: none !important;
@@ -74,6 +81,28 @@ body {
   box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
 }
 
+.card-title span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+
+/* Badge */
+.badge {
+  font-size: 14px !important;
+  padding-bottom: 6px !important;
+}
+
+
+/* App */
+.pokemon-list-main-row {
+  padding: 7px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .pokemon-col {
   padding: 5px !important;
 }
@@ -82,24 +111,6 @@ body {
   text-decoration: none !important;
 }
 
-.pokemon-list-main-row {
-  padding: 7px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-
-.card-title span {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: 100%;
-}
-
 .pokemon-nickname {
   color: #ff1c1c !important;
-}
-
-.badge {
-  font-size: 14px !important;
-  padding-bottom: 6px !important;
 }

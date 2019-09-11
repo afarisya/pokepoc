@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router'; // react-router v4
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { 
     Navbar,
     NavbarBrand,
@@ -8,7 +8,7 @@ import {
     Collapse,
     Nav,
     NavItem,
-    NavLink,
+    // NavLink,
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
@@ -40,8 +40,8 @@ class Header extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps.history.location.pathname !== this.props.history.location.pathname);
-        console.log(nextProps.history.location.search !== this.props.history.location.search)
+        // console.log(nextProps.history.location.pathname !== this.props.history.location.pathname);
+        // console.log(nextProps.history.location.search !== this.props.history.location.search)
         if (
             nextProps.history.location.pathname+this.props.history.location.pathname !== this.state.latestUrl
         ) {
@@ -90,30 +90,32 @@ class Header extends React.Component {
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                     <NavItem>
-                        <NavLink>
-                            <Link 
+                        {/* <NavLink> */}
+                            <NavLink 
                                 to="/pokemons" 
+                                className="nav-link"
                                 style={{
                                     fontWeight: this.state.latestUrl.indexOf("/pokemons") > -1 ? "700" : "normal"
                                 }} 
                                 onClick={this.closeCollapse}
                             >
                                 All Pokemons
-                            </Link>
-                        </NavLink>
+                            </NavLink>
+                        {/* </NavLink> */}
                     </NavItem>
                     <NavItem>
-                        <NavLink>
-                            <Link 
+                        {/* <NavLink> */}
+                            <NavLink 
                                 to="/my-pokemons" 
+                                className="nav-link"
                                 style={{
                                     fontWeight: this.state.latestUrl.indexOf("/my-pokemons") > -1 ? "700" : "normal"
                                 }}
                                 onClick={this.closeCollapse}
                             >
                                 My Pokemons
-                            </Link>
-                        </NavLink>
+                            </NavLink>
+                        {/* </NavLink> */}
                     </NavItem>
                     </Nav>
                 </Collapse>

@@ -78,7 +78,7 @@ export const reqMyPokemonList = (page) => (dispatch, getState) => {
             dispatch(rcvMyPokemonList(data))               
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
             setTimeout(() => {
                 dispatch(reqMyPokemonList(page));
             }, 100);
@@ -112,7 +112,7 @@ export const reqMyPokemonTotal = () => (dispatch, getState) => {
             dispatch(reqTotalChange(total));           
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
             setTimeout(() => {
                 dispatch(reqMyPokemonTotal());
             }, 100);
