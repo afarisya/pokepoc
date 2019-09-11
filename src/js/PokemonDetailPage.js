@@ -78,10 +78,12 @@ class PokemonDetailPage extends React.Component {
     renderData = (props) => {
         var items = [
             {
+                key: 1,
                 src: props.pictures.front_default,
                 altText: ''
             },
             {
+                key: 2,
                 src: props.pictures.back_default,
                 altText: ''
             }
@@ -89,8 +91,6 @@ class PokemonDetailPage extends React.Component {
 
         this.setState({
             items: items
-        }, () => {
-            console.log(this.state.items)
         }) 
 
     }
@@ -158,7 +158,7 @@ class PokemonDetailPage extends React.Component {
                 this.modalToggle();   
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
             });
     }
 
@@ -169,6 +169,9 @@ class PokemonDetailPage extends React.Component {
     }
 
     render() {
+        // console.log(this.state.items)
+        
+
         return (
             <Container>
                 <Row>
@@ -185,12 +188,12 @@ class PokemonDetailPage extends React.Component {
                                 onClickHandler={this.goToIndex} 
                             />
                             {
-                                this.state.items.map((item) => {
+                                this.state.items.map((item, index) => {
                                     return (
                                         <CarouselItem
                                             onExiting={this.onExiting}
                                             onExited={this.onExited}
-                                            key={item.src}
+                                            key={index}
                                         >
                                             <img src={item.src} alt={item.altText} />
                                         </CarouselItem>
