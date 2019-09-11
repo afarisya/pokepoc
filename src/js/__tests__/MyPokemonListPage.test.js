@@ -6,18 +6,18 @@ import { createIndexedDB } from '../../utils/IndexedDb';
 import { history } from '../../store'
 // require("fake-indexeddb/auto");
 
-import { MyPokemonListPage } from '../MyPokemonListPage';
+import MyPokemonListPage from '../MyPokemonListPage';
 
 
 describe("MyPokemonListPage", () => {
     const page = shallow(
-        <MyPokemonListPage 
+        <MyPokemonListPage.WrappedComponent
             history={history} 
             status="reqMyPokemonList"
             activePage={1}
             offset={0}
             limit={12}
-            totalPokemons={500}
+            totalPokemons={0}
             pokemons={[]}
         />
     );
@@ -30,12 +30,12 @@ describe("MyPokemonListPage", () => {
         expect(page.find('Spinner').length).toEqual(1);
     });
 
-    it("should not show PokemonPagination on my pokemon list page if pokemons.length = 0", () => {  
+    it("should not show PokemonPagination on my pokemon list page if totalPokemons = 0", () => {  
         expect(page.find('PokemonPagination').length).toEqual(0);
     });
 
     const page2 = shallow(
-        <MyPokemonListPage 
+        <MyPokemonListPage.WrappedComponent 
             history={history} 
             status="reqMyPokemonList"
             activePage={1}
@@ -46,18 +46,18 @@ describe("MyPokemonListPage", () => {
         />
     );
 
-    it("should show PokemonPagination on my pokemon list page if pokemons.length > 0", () => {  
+    it("should show PokemonPagination on my pokemon list page if totalPokemons > 0", () => {  
         expect(page2.find('PokemonPagination').length).toEqual(1);
     });
 
     const page3 = shallow(
-        <MyPokemonListPage 
+        <MyPokemonListPage.WrappedComponent 
             history={history} 
             status="rcvMyPokemonList"
             activePage={1}
             offset={0}
             limit={12}
-            totalPokemons={500}
+            totalPokemons={0}
             pokemons={[]}
             // pokemons={[{pokemonId: "bulbasaur", pokemonName: "bulbasaur", pokemonNickname: "bulb"}]}
         />
@@ -68,11 +68,11 @@ describe("MyPokemonListPage", () => {
     });
 
     it("should show 'You haven't catch any pokemon' if status = rcvMyPokemonList and pokemons.length = 0", () => {   
-        expect(page3.find('Col').first().html()).toEqual("You haven't catch any pokemon");
+        expect(page3.find('#no-pokemons').length).toEqual(1);
     });
 
     const page4 = shallow(
-        <MyPokemonListPage 
+        <MyPokemonListPage.WrappedComponent 
             history={history} 
             status="rcvMyPokemonList"
             activePage={1}

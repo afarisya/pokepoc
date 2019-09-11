@@ -32,7 +32,7 @@ import PokemonPagination from './PokemonPagination';
 import { reqMyPokemonList, clearMyPokemons } from '../reducers/MyPokemonListReducers';
 
 
-export class MyPokemonListPage extends React.Component {
+class MyPokemonListPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -93,7 +93,7 @@ export class MyPokemonListPage extends React.Component {
                         :
                         ( this.props.totalPokemons === 0 ?
                             <Row className="pokemon-list-main-row">
-                                <Col xs="12">You haven't catch any pokemon</Col>
+                                <Col xs="12" id="no-pokemons">You haven't catch any pokemon</Col>
                             </Row>
                             :
                             <React.Fragment>

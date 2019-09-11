@@ -11,6 +11,7 @@ Array [
         tag="div"
       >
         <Col
+          id="no-pokemons"
           tag="div"
           widths={
             Array [
@@ -25,21 +26,6 @@ Array [
         >
           You haven't catch any pokemon
         </Col>
-      </Row>
-      <Row
-        style={
-          Object {
-            "padding": "0 13px",
-          }
-        }
-        tag="div"
-      >
-        <PokemonPagination
-          activePage={1}
-          itemsPerPage={12}
-          onChange={[Function]}
-          totalItems={500}
-        />
       </Row>
     </Container>
   </div>,
@@ -68,21 +54,6 @@ Array [
         >
           Loading...
         </Spinner>
-      </Row>
-      <Row
-        style={
-          Object {
-            "padding": "0 13px",
-          }
-        }
-        tag="div"
-      >
-        <PokemonPagination
-          activePage={1}
-          itemsPerPage={12}
-          onChange={[Function]}
-          totalItems={500}
-        />
       </Row>
     </Container>
   </div>,

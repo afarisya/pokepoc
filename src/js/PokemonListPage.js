@@ -19,7 +19,7 @@ import PokemonPagination from './PokemonPagination';
 import { reqPokemonList, clearPokemons } from '../reducers/PokemonListReducers';
 import { reqMyPokemonTotal } from '../reducers/MyPokemonListReducers';
 
-export class PokemonListPage extends React.Component {
+class PokemonListPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

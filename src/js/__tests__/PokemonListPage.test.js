@@ -6,12 +6,12 @@ import { createIndexedDB } from '../../utils/IndexedDb';
 import { history } from '../../store'
 // require("fake-indexeddb/auto");
 
-import { PokemonListPage } from '../PokemonListPage';
+import PokemonListPage from '../PokemonListPage';
 
 
 describe("PokemonListPage", () => {
     const page = shallow(
-        <PokemonListPage 
+        <PokemonListPage.WrappedComponent 
             history={history} 
             activePage={1}
             offset={0}
@@ -35,7 +35,7 @@ describe("PokemonListPage", () => {
     });
 
     const page2 = shallow(
-        <PokemonListPage 
+        <PokemonListPage.WrappedComponent 
             history={history} 
             activePage={1}
             offset={0}
