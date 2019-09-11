@@ -86,7 +86,7 @@ class Header extends React.Component {
                         }
                     </Mobile>
                 </NavbarBrand>
-                <NavbarToggler onClick={this.toggle} />
+                <NavbarToggler onClick={this.toggle}><i className="material-icons">menu</i></NavbarToggler>
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
                     <NavItem>
