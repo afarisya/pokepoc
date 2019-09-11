@@ -1,6 +1,6 @@
 // import { history } from "../store"
 import { _parseJSON } from "../utils/_parseJSON";
-
+import { getPokemonById } from "../utils/IndexedDb"
 /** 
 Declare the type of action as constant.
 WHY?
@@ -18,6 +18,7 @@ export const PAGE_CHANGE                = "PAGE_CHANGE";
 export const TOTAL_PAGE                 = "TOTAL_PAGE";
 
 export const UPDATE_POKEMON_ID          = "UPDATE_POKEMON_ID";
+export const RECEIVE_POKEMON_CATCHED    = "RECEIVE_POKEMON_CATCHED";
 export const RECEIVE_POKEMON_DETAIL     = "RECEIVE_POKEMON_DETAIL";
 export const CLEAR_POKEMON_DETAIL       = "CLEAR_POKEMON_DETAIL";
 export const RECEIVE_POKEMON_PICTURES   = "RECEIVE_POKEMON_PICTURES";
@@ -41,39 +42,67 @@ export const reqPokemonIdChange = id => ({
     id: id
 });
 
+export const rcvPokemonCatched = (catched, nickname) => ({
+    type: RECEIVE_POKEMON_CATCHED,
+    catched: catched,
+    nickname: nickname
+});
+
 export const reqPokemonDetail = (id) => (dispatch, getState) => {
     dispatch(reqPokemonIdChange(id));
 
     var targetUrl   = `https://pokeapi.co/api/v2/pokemon/${id}`;
 
-    // Begin fetch 
-    fetch(targetUrl, {
-        method: "GET"
+    new Promise((resolve, reject) => {
+        // Begin fetch 
+        fetch(targetUrl, {
+            method: "GET"
+        })
+            .then((response) => {
+                if ( response.ok ) {
+                    return response;
+                } else {
+                    throw Error(response.status);
+                }
+            })
+            .then(response => {
+                return _parseJSON(response);
+            })
+            .then(resp => {
+                resolve(resp);
+            })
+            .catch(error => {
+                reject(error);
+            });
     })
-        .then((response) => {
-            if ( response.ok ) {
-                return response;
-            } else {
-                throw Error(response.status);
-            }
-        })
-        .then(response => {
-            return _parseJSON(response);
-        })
-        .then(resp => {
-            console.log(resp)
-            resp["id"] = id;
+    .then(resp => {
+        var data = resp;
+        data["id"] = id;
 
-            dispatch(rcvPokemonDetail(resp));
-            // dispatch(reqPokemonPictures(data.forms[0].url));
+        getPokemonById(id)
+            .then(resp => {
+                data["catched"]  = true;
+                data["nickname"] = resp.pokemonNickname;
+    
+                dispatch(rcvPokemonDetail(data));
+    
+            })
+            .catch(error => {
+                data["catched"]  = false;
+                data["nickname"] = "";
 
-        })
-        .catch(error => {
-            console.log(error)
-        });
+                dispatch(rcvPokemonDetail(data));
+            });
+
+    })
+    .catch(error => {
+        console.log(error)
+    });
+
 };
 
 export const rcvPokemonDetail = (data) => (dispatch, getState) => {
+    console.log(data)
     if ( 
         data.id === getState().PokemonDetailReducers.id
     ) {
@@ -81,8 +110,8 @@ export const rcvPokemonDetail = (data) => (dispatch, getState) => {
             name        : data.forms[0].name,
             moves       : data.moves,
             types       : data.types,
-            catched     : false,
-            nickname    : ""
+            catched     : data.catched,
+            nickname    : data.nickname
         }
             
         // console.log(msg)
@@ -94,8 +123,7 @@ export const rcvPokemonDetail = (data) => (dispatch, getState) => {
     }
 }
 
-export const reqPokemonPictures = (/*url*/ id) => (dispatch, getState) => {
-    // var targetUrl   = url;
+export const reqPokemonPictures = (id) => (dispatch, getState) => {
     var targetUrl   = `https://pokeapi.co/api/v2/pokemon-form/${id}/`;
 
     // Begin fetch 
@@ -163,12 +191,22 @@ export default function PokemonDetailReducers(state = initialState, action) {
                 id    : action.id
             }
 
+        case RECEIVE_POKEMON_CATCHED:
+            return {
+                ...state,
+                catched     : action.catched,
+                nickname    : action.nickname
+            }
+
+
 		case RECEIVE_POKEMON_DETAIL:
             return {
                 ...state,
                 name        : action.msg.name,
                 moves       : action.msg.moves,
-                types       : action.msg.types
+                types       : action.msg.types,
+                catched     : action.msg.catched,
+                nickname    : action.msg.nickname
             }
                        
 		case RECEIVE_POKEMON_PICTURES:

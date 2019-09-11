@@ -1,10 +1,11 @@
 .pokemon-detail-first-col {
-    padding: 20px;
+    min-height: 400px;
+    padding: 20px 40px;
     background-color: rgba(0,0,0,0.1);
 }
 
 .pokemon-detail-second-col {
-    padding: 20px;
+    padding: 20px 40px;
     background-color: #fff;
 }
 
@@ -18,6 +19,12 @@
 }
 
 .catch-btn {
+    margin-bottom: 20px;
+    width: 125px;
+    max-width: 100%;
+}
+
+.catched-nickname {
     margin-bottom: 20px;
 }
 
@@ -46,5 +53,5 @@
     margin-right: 3px;
     margin-bottom: 5px;
     font-size: 14px;
-    padding-bottom: 8px;
+    /* padding-bottom: 8px; */
 }

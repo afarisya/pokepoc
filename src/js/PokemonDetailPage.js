@@ -21,7 +21,9 @@ import store from '../store';
 import { 
     reqPokemonIdChange, 
     reqPokemonDetail, 
-    reqPokemonPictures 
+    reqPokemonPictures,
+    rcvPokemonCatched,
+    clearPokemonDetail
 } from '../reducers/PokemonDetailReducers';
 import { addPokemon } from '../utils/IndexedDb';
 
@@ -33,13 +35,12 @@ class PokemonDetailPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            modal: false,
-            activeIndex: 0, 
-            items : [],
-            nickname: "",
-            tryToCatch: null,
-            catched: false,
-            nicknameExist: false
+            modal           : false,    // modal
+            activeIndex     : 0,        // carousel 
+            items           : [],       // carousel pictures
+
+            inputNickname   : "",
+            tryToCatch      : null
         }
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
@@ -70,20 +71,26 @@ class PokemonDetailPage extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        store.dispatch(clearPokemonDetail());
+    }
+
     renderData = (props) => {
+        var items = [
+            {
+                src: props.pictures.front_default,
+                altText: ''
+            },
+            {
+                src: props.pictures.back_default,
+                altText: ''
+            }
+        ];
+
         this.setState({
-            items: [
-                {
-                    src: props.pictures.front_default,
-                    altText: '',
-                    caption: ''
-                },
-                {
-                    src: props.pictures.back_default,
-                    altText: '',
-                    caption: ''
-                }
-            ]
+            items: items
+        }, () => {
+            console.log(this.state.items)
         }) 
 
     }
@@ -125,13 +132,6 @@ class PokemonDetailPage extends React.Component {
         this.setState({
             tryToCatch: try_to_catch
         }, () => {
-            // if ( try_to_catch === 0 ) {
-            //     // Failed to catch!
-            // } else if ( try_to_catch === 1 ) {
-            //     // Catched
-            //     // Toggle Modal
-            //     this.modalToggle();
-            // }
             this.modalToggle();
         })
     }
@@ -147,27 +147,24 @@ class PokemonDetailPage extends React.Component {
         addPokemon({
             pokemonId: this.props.id,
             pokemonName: this.props.name,
-            pokemonNickname: this.state.nickname
+            pokemonNickname: this.state.inputNickname
         })
             .then(data => {
+                store.dispatch(rcvPokemonCatched(true, this.state.inputNickname));    
+
                 this.setState({
-                    nickname: ""
-                })
-                this.modalToggle();                
+                    inputNickname: ""
+                })         
+                this.modalToggle();   
             })
             .catch(err => {
-                this.setState({
-                    nicknameExist: true
-                })
+                console.log(err)
             });
     }
 
     nicknameOnChange = (e) => {
         this.setState({
-            nicknameExist: false
-        })
-        this.setState({
-            nickname: e.target.value
+            inputNickname: e.target.value
         })
     }
 
@@ -182,18 +179,21 @@ class PokemonDetailPage extends React.Component {
                             next={this.next}
                             previous={this.previous}
                         >
-                            <CarouselIndicators items={this.state.items} activeIndex={this.state.activeIndex} onClickHandler={this.goToIndex} />
+                            <CarouselIndicators 
+                                items={this.state.items} 
+                                activeIndex={this.state.activeIndex} 
+                                onClickHandler={this.goToIndex} 
+                            />
                             {
                                 this.state.items.map((item) => {
                                     return (
-                                    <CarouselItem
-                                        // onExiting={this.onExiting}
-                                        // onExited={this.onExited}
-                                        key={item.src}
-                                    >
-                                        <img src={item.src} alt={item.altText} />
-                                        {/* <CarouselCaption captionText={item.caption} captionHeader={item.caption} /> */}
-                                    </CarouselItem>
+                                        <CarouselItem
+                                            onExiting={this.onExiting}
+                                            onExited={this.onExited}
+                                            key={item.src}
+                                        >
+                                            <img src={item.src} alt={item.altText} />
+                                        </CarouselItem>
                                     );
                                 })
                             }
@@ -202,7 +202,7 @@ class PokemonDetailPage extends React.Component {
                         </Carousel>
                         <h2 id="pokemon-detail-name">{this.props.name}</h2>
                         {
-                            !this.state.catched ?
+                            !this.props.catched ?
                                 <React.Fragment>
                                     <Button className="catch-btn" color="primary" onClick={this.catchPokemon}>Catch</Button>
                                     { this.state.tryToCatch === 1 ?
@@ -213,18 +213,9 @@ class PokemonDetailPage extends React.Component {
                                             id="catch-pokemon-modal"
                                         >
                                             <ModalBody>
-                                                { !this.state.nicknameExist ?
-                                                    <React.Fragment>
-                                                        <h5>Pokemon <span style={{fontWeight: "bold"}}>{this.props.name}</span> catched!</h5>
-                                                        <div>Give it a nickname</div>
-                                                    </React.Fragment>
-                                                    :
-                                                    <React.Fragment>
-                                                        <h5>You have had a pokemon nicknamed <span style={{fontWeight: "bold"}}>{this.state.nickname}</span></h5>
-                                                        <div>Give it another nickname</div>
-                                                    </React.Fragment>
-                                                }
-                                                <Input value={this.state.nickname} onChange={this.nicknameOnChange.bind(this)}/>
+                                                <h5>Pokemon <span style={{fontWeight: "bold"}}>{this.props.name}</span> catched!</h5>
+                                                <div>Give it a nickname</div>
+                                                <Input value={this.state.inputNickname} onChange={this.nicknameOnChange.bind(this)}/>
                                                 <Button 
                                                     color="secondary"
                                                     onClick={this.modalToggle}
@@ -268,17 +259,19 @@ class PokemonDetailPage extends React.Component {
                                     }
                                 </React.Fragment>
                                 :
-                                <Button className="catch-btn" color="primary" disabled>Catched</Button>
+                                <React.Fragment>
+                                    <Button className="catch-btn" color="secondary" disabled>Catched!</Button>
+                                    <div className="catched-nickname">Your {this.props.name} nickname is <span style={{fontWeight: "700"}}>{this.props.nickname}</span></div>
+                                </React.Fragment>
                         }
                     </Col>
                     <Col className="pokemon-detail-second-col" xs="12" md="12">
                         <div className="pokemon-detail-types">
                             <h5>Types</h5>
                             {
-                                this.props.types.map((type) => {
+                                this.props.types.map((type, index) => {
                                     return (
-                                        // <div>{type.type.name}</div>
-                                        <Badge color="danger">{type.type.name}</Badge>
+                                        <Badge color="danger" key={index}>{type.type.name}</Badge>
                                     )
                                 })
                             }
@@ -288,8 +281,7 @@ class PokemonDetailPage extends React.Component {
                             {
                                 this.props.moves.map((move, index) => {
                                     return (
-                                        // <div key={index}>{move.move.name}</div>
-                                        <Badge color="secondary">{move.move.name}</Badge>
+                                        <Badge color="secondary" key={index}>{move.move.name}</Badge>
                                     )
                                 })
                             }
