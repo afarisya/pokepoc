@@ -17,6 +17,7 @@ import PokemonPagination from './PokemonPagination';
 
 // Actions
 import { reqPokemonList } from '../reducers/PokemonListReducers';
+import { reqMyPokemonTotal } from '../reducers/MyPokemonListReducers';
 
 class PokemonListPage extends React.Component {
 	constructor(props) {
@@ -27,6 +28,8 @@ class PokemonListPage extends React.Component {
 	}
 
     componentWillMount() {
+        store.dispatch(reqMyPokemonTotal());
+
         this.setState({
             searchQuery: this.props.history.location.search
         }, () => {
@@ -74,19 +77,25 @@ class PokemonListPage extends React.Component {
                             <Spinner color="danger" style={{margin: "auto"}} />
                         </Row>
                         :
-                        <Row className="pokemon-list-main-row">
-                            {
-                                this.props.pokemons.map((pokemon) => {
-                                    return (
-                                        <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
-                                            <PokemonCard id={pokemon.name} name={pokemon.name} />
-                                        </Col>
-                                    )
-                                })
-                            }
-                        </Row>
+                        <React.Fragment>
+                            <div style={{padding: "30px 15px 5px"}}>
+                                <h5>All Pokemons (Total {this.props.totalPokemons})</h5>
+                                <div>You've catched {this.props.totalCatchedPokemons} of them</div>
+                            </div>
+                            <Row className="pokemon-list-main-row">
+                                {
+                                    this.props.pokemons.map((pokemon) => {
+                                        return (
+                                            <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
+                                                <PokemonCard id={pokemon.name} name={pokemon.name} />
+                                            </Col>
+                                        )
+                                    })
+                                }
+                            </Row>
+                        </React.Fragment>
                     }
-                    <Row style={{padding: "0 13px"}}>
+                    <Row style={{padding: "0 15px"}}>
                         <PokemonPagination 
                             activePage={this.props.activePage}
                             totalItems={this.props.totalPokemons}
@@ -107,6 +116,7 @@ function mapStateToProps(state) {
 		limit           : state.PokemonListReducers.limit,
 		totalPokemons   : state.PokemonListReducers.totalPokemons,
 		pokemons        : state.PokemonListReducers.pokemons,
+		totalCatchedPokemons   : state.MyPokemonListReducers.totalPokemons,
 	}
 }
 
