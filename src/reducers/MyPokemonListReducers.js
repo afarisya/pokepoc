@@ -1,5 +1,5 @@
 // import { history } from "../store"
-import { getMyPokemonList } from "../utils/IndexedDb";
+import { getMyPokemonList, getMyPokemonCount } from "../utils/IndexedDb";
 
 /** 
 Declare the type of action as constant.
@@ -14,9 +14,10 @@ WHY?
 
 
 // Action Types
-export const PAGE_CHANGE = "PAGE_CHANGE";
-export const OFFSET_CHANGE = "OFFSET_CHANGE";
-export const STATUS_CHANGE = "STATUS_CHANGE";
+export const PAGE_CHANGE    = "PAGE_CHANGE";
+export const OFFSET_CHANGE  = "OFFSET_CHANGE";
+export const TOTAL_CHANGE   = "TOTAL_CHANGE";
+export const STATUS_CHANGE  = "STATUS_CHANGE";
 
 export const RECEIVE_MY_POKEMON_LIST = "RECEIVE_MY_POKEMON_LIST";
 export const CLEAR_MY_POKEMON_LIST   = "CLEAR_MY_POKEMON_LIST";
@@ -43,6 +44,11 @@ const reqPageChange = page => ({
 const reqOffsetChange = offset => ({
     type: OFFSET_CHANGE,
     offset: offset
+});
+
+const reqTotalChange = total => ({
+    type: TOTAL_CHANGE,
+    total: total
 });
 
 const reqStatusChange = status => ({
@@ -99,6 +105,20 @@ export const rcvMyPokemonList = data => (dispatch, getState) => {
 
 };
 
+
+export const reqMyPokemonTotal = () => (dispatch, getState) => {
+    getMyPokemonCount()
+        .then(total => {
+            dispatch(reqTotalChange(total));           
+        })
+        .catch(err => {
+            console.log(err)
+            setTimeout(() => {
+                dispatch(reqMyPokemonTotal());
+            }, 100);
+        });
+};
+
 export const clearPokemons = () => ({
     type: CLEAR_MY_POKEMON_LIST
 });
@@ -130,6 +150,12 @@ export default function MyPokemonListReducers(state = initialState, action) {
             return {
                 ...state,
                 offset: action.offset
+            };
+
+        case TOTAL_CHANGE:
+            return {
+                ...state,
+                totalPokemons: action.total
             };
 
         case STATUS_CHANGE:

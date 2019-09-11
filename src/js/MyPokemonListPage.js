@@ -92,21 +92,27 @@ class MyPokemonListPage extends React.Component {
                                 <Col xs="12">You haven't catch any pokemon</Col>
                             </Row>
                             :
-                            <Row className="pokemon-list-main-row">
-                                {
-                                    this.props.pokemons.map((pokemon) => {
-                                        return (
-                                            <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
-                                                <PokemonCard 
-                                                    id={pokemon.pokemonId} 
-                                                    name={pokemon.pokemonName} 
-                                                    nickname={pokemon.pokemonNickname} 
-                                                />
-                                            </Col>
-                                        )
-                                    })
-                                }
-                            </Row>
+                            <React.Fragment>
+                                <div style={{padding: "30px 15px 0"}}>
+                                    <h5>My Pokemons (Total {this.props.totalPokemons})</h5>
+                                </div>
+                                <Row className="pokemon-list-main-row">
+                                    {
+                                        this.props.pokemons.map((pokemon) => {
+                                            return (
+                                                <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
+                                                    <PokemonCard 
+                                                        id={pokemon.pokemonId} 
+                                                        name={pokemon.pokemonName} 
+                                                        catched={true}
+                                                        nickname={pokemon.pokemonNickname} 
+                                                    />
+                                                </Col>
+                                            )
+                                        })
+                                    }
+                                </Row>
+                            </React.Fragment>
                         )
                     }
                     { this.props.totalPokemons !== 0 ?
