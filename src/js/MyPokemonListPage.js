@@ -84,7 +84,7 @@ class MyPokemonListPage extends React.Component {
                 <Container>
                     { this.props.status !== "rcvMyPokemonList" ?
                         <Row className="pokemon-list-main-row">
-                            <Spinner color="danger" style={{margin: "auto"}} />
+                            <Spinner color="danger" style={{margin: "50% auto"}} />
                         </Row>
                         :
                         ( this.props.pokemons.length === 0 ?

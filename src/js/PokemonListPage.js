@@ -74,7 +74,7 @@ class PokemonListPage extends React.Component {
                 <Container>
                     { this.props.pokemons.length === 0 ?
                         <Row className="pokemon-list-main-row">
-                            <Spinner color="danger" style={{margin: "auto"}} />
+                            <Spinner color="danger" style={{margin: "50% auto"}} />
                         </Row>
                         :
                         <React.Fragment>
