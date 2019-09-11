@@ -1,4 +1,8 @@
 .pokemon-detail-first-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     min-height: 400px;
     padding: 20px 40px;
     background-color: rgba(0,0,0,0.1);
@@ -9,6 +13,9 @@
     background-color: #fff;
 }
 
+.pokemon-pictures-carousel {
+    width: 100%;
+}
 .pokemon-pictures-carousel img {
     width: 200px;
     max-width: 100%;
