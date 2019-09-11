@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MyPokemonListPage should render my pokemon list page if status = rcvMyPokemonList 1`] = `
+Array [
+  <div>
+    <Container
+      tag="div"
+    >
+      <Row
+        className="pokemon-list-main-row"
+        tag="div"
+      >
+        <Col
+          tag="div"
+          widths={
+            Array [
+              "xs",
+              "sm",
+              "md",
+              "lg",
+              "xl",
+            ]
+          }
+          xs="12"
+        >
+          You haven't catch any pokemon
+        </Col>
+      </Row>
+      <Row
+        style={
+          Object {
+            "padding": "0 13px",
+          }
+        }
+        tag="div"
+      >
+        <PokemonPagination
+          activePage={1}
+          itemsPerPage={12}
+          onChange={[Function]}
+          totalItems={500}
+        />
+      </Row>
+    </Container>
+  </div>,
+]
+`;
+
+exports[`MyPokemonListPage should render my pokemon list page if status = reqMyPokemonList 1`] = `
+Array [
+  <div>
+    <Container
+      tag="div"
+    >
+      <Row
+        className="pokemon-list-main-row"
+        tag="div"
+      >
+        <Spinner
+          color="danger"
+          style={
+            Object {
+              "margin": "50% auto",
+            }
+          }
+          tag="div"
+          type="border"
+        >
+          Loading...
+        </Spinner>
+      </Row>
+      <Row
+        style={
+          Object {
+            "padding": "0 13px",
+          }
+        }
+        tag="div"
+      >
+        <PokemonPagination
+          activePage={1}
+          itemsPerPage={12}
+          onChange={[Function]}
+          totalItems={500}
+        />
+      </Row>
+    </Container>
+  </div>,
+]
+`;

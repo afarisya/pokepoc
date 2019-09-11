@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PokemonListPage should render pokemon list page if pokemons.length = 0 1`] = `
+Array [
+  <div>
+    <Container
+      tag="div"
+    >
+      <Row
+        className="pokemon-list-main-row"
+        tag="div"
+      >
+        <Spinner
+          color="danger"
+          style={
+            Object {
+              "margin": "50% auto",
+            }
+          }
+          tag="div"
+          type="border"
+        >
+          Loading...
+        </Spinner>
+      </Row>
+      <Row
+        style={
+          Object {
+            "padding": "0 15px",
+          }
+        }
+        tag="div"
+      >
+        <PokemonPagination
+          activePage={1}
+          itemsPerPage={12}
+          onChange={[Function]}
+          totalItems={500}
+        />
+      </Row>
+    </Container>
+  </div>,
+]
+`;
+
+exports[`PokemonListPage should render pokemon list page if pokemons.length = 1 1`] = `
+Array [
+  <div>
+    <Container
+      tag="div"
+    >
+      <React.Fragment>
+        <div
+          style={
+            Object {
+              "padding": "30px 15px 5px",
+            }
+          }
+        >
+          <h5>
+            All Pokemons (Total 
+            500
+            )
+          </h5>
+          <div>
+            You've catched 
+            0
+             of them
+          </div>
+        </div>
+        <Row
+          className="pokemon-list-main-row"
+          tag="div"
+        >
+          <Col
+            className="pokemon-col"
+            lg="2"
+            md="3"
+            sm="4"
+            tag="div"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+            xs="6"
+          >
+            <PokemonCard
+              id="bulbasaur"
+              name="bulbasaur"
+            />
+          </Col>
+        </Row>
+      </React.Fragment>
+      <Row
+        style={
+          Object {
+            "padding": "0 15px",
+          }
+        }
+        tag="div"
+      >
+        <PokemonPagination
+          activePage={1}
+          itemsPerPage={12}
+          onChange={[Function]}
+          totalItems={500}
+        />
+      </Row>
+    </Container>
+  </div>,
+]
+`;

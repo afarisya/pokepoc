@@ -32,7 +32,7 @@ import PokemonPagination from './PokemonPagination';
 import { reqMyPokemonList } from '../reducers/MyPokemonListReducers';
 
 
-class MyPokemonListPage extends React.Component {
+export class MyPokemonListPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {

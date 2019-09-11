@@ -8,44 +8,52 @@
 
 export var db;
 
-// IndexedDB
-var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.OIndexedDB || window.msIndexedDB;
-// var IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.OIDBTransaction || window.msIDBTransaction;
-var dbVersion = 1.0;
-
 // Create/open database
-var request = indexedDB.open("MyPokemonList", dbVersion);
+export function createIndexedDB() {
+    return (
+        new Promise((resolve, reject) => {
+            // IndexedDB
+            var indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.OIndexedDB || window.msIndexedDB;
+            // var IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.OIDBTransaction || window.msIDBTransaction;
+            var dbVersion = 1.0;
 
-var lastIndex = null;
+            var request = indexedDB.open("MyPokemonList", dbVersion);
 
-request.onsuccess = function (event) {
-    console.log("Success creating/accessing IndexedDB database");
+            request.onsuccess = function (event) {
+                // console.log("Success creating/accessing IndexedDB database");
+            
+                db = request.result;
 
-    db = request.result;
-
-    db.onerror = function (event) {
-        console.log("Error creating/accessing IndexedDB database");
-    };
+                resolve("Success creating/accessing IndexedDB database");
+            
+                db.onerror = function (event) {
+                    // console.log("Error creating/accessing IndexedDB database");
+                    reject("Error creating/accessing IndexedDB database");
+                };
+                
+            }
+            
+            request.onerror = function (event) {
+                // console.log("Error creating/accessing IndexedDB database");
+                reject("Error creating/accessing IndexedDB database");
+            };
     
-}
-
-request.onerror = function (event) {
-    console.log("Error creating/accessing IndexedDB database");
-};
-
-// For future use. Currently only in latest Firefox versions
-request.onupgradeneeded = function (event) {
-    // console.log("Upgrading IndexedDb");
-    var dataBase = event.target.result;
-
-    var store = dataBase.createObjectStore("pokemons", { 
-                    keyPath: 'pokemonId'//,
-                    // autoIncrement: true 
-                });
-    store.createIndex("pokemonId", "pokemonId", { unique: true });
-    store.createIndex("pokemonName", "pokemonName", { unique: false });
-    store.createIndex("pokemonNickname", "pokemonNickname", { unique: false });
-
+            // For future use. Currently only in latest Firefox versions
+            request.onupgradeneeded = function (event) {
+                // console.log("Upgrading IndexedDb");
+                var dataBase = event.target.result;
+            
+                var store = dataBase.createObjectStore("pokemons", { 
+                                keyPath: 'pokemonId'//,
+                                // autoIncrement: true 
+                            });
+                store.createIndex("pokemonId", "pokemonId", { unique: true });
+                store.createIndex("pokemonName", "pokemonName", { unique: false });
+                store.createIndex("pokemonNickname", "pokemonNickname", { unique: false });
+            
+            };
+        })
+    )
 };
 
 export var createObjectStore = function (dataBase, objStoreName) {
