@@ -57,12 +57,12 @@ const reqStatusChange = status => ({
 });
 
 export const reqMyPokemonList = (page) => (dispatch, getState) => {
-    dispatch(clearPokemons());
+    dispatch(clearMyPokemons());
     dispatch(reqStatusChange("reqMyPokemonList"));
     dispatch(reqPageChange(page));
 
-    let offset  = (page - 1) * 10;
     let limit   = getState().MyPokemonListReducers.limit;
+    let offset  = (page - 1) * limit;
 
     dispatch(reqOffsetChange(offset));
 
@@ -74,8 +74,12 @@ export const reqMyPokemonList = (page) => (dispatch, getState) => {
                 count   : resp.count,
                 results : resp.pokemons  
             }
-        
-            dispatch(rcvMyPokemonList(data))               
+            // if ( data.count > 0 && data.results.length === 0 ) {
+            //     dispatch(reqMyPokemonList(page-1));
+            //     return;
+            // }
+            
+            dispatch(rcvMyPokemonList(data));            
         })
         .catch(err => {
             // console.log(err)
@@ -119,7 +123,7 @@ export const reqMyPokemonTotal = () => (dispatch, getState) => {
         });
 };
 
-export const clearPokemons = () => ({
+export const clearMyPokemons = () => ({
     type: CLEAR_MY_POKEMON_LIST
 });
 
@@ -128,7 +132,7 @@ const initialState = {
     status: "",
     activePage: 1,
     offset: 0,
-    limit: 10,
+    limit: 12,
     totalPokemons: 0,
     pokemons: []
 };
@@ -174,6 +178,11 @@ export default function MyPokemonListReducers(state = initialState, action) {
         case CLEAR_MY_POKEMON_LIST:
             return {
                 ...state,
+                status: "",
+                activePage: 1,
+                offset: 0,
+                limit: 12,
+                totalPokemons: 0,
                 pokemons: []
             };
             

@@ -84,7 +84,7 @@ export var getMyPokemonList = function(offset, limit){
                         .then((count) => {
                             resolve(
                                 {
-                                    count: iterate,
+                                    count: count,
                                     pokemons: pokemons
                                 }
                             );
@@ -102,7 +102,7 @@ export var getMyPokemonList = function(offset, limit){
                     .then((count) => {
                         resolve(
                             {
-                                count: iterate,
+                                count: count,
                                 pokemons: pokemons
                             }
                         );

@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import { connect } from 'react-redux';
 import { 
@@ -5,9 +6,7 @@ import {
     Row, 
     Col, 
     Modal, 
-    ModalHeader, 
     ModalBody, 
-    ModalFooter,
     Button,
     Input,
     Carousel,
@@ -88,7 +87,7 @@ class PokemonDetailPage extends React.Component {
 
         if ( props.pictures.back_default !== null ) {
             items.push({
-                key: 1,
+                key: 2,
                 src: props.pictures.back_default,
                 altText: ''
             });
@@ -103,6 +102,12 @@ class PokemonDetailPage extends React.Component {
     modalToggle() {
         this.setState({
             modal: !this.state.modal
+        }, () => {
+            if ( this.state.modal ) {
+                setTimeout(() => {
+                    $("#nickname-input").focus();
+                }, 50);
+            }
         });
     }
 
@@ -223,7 +228,7 @@ class PokemonDetailPage extends React.Component {
                                             <ModalBody>
                                                 <h5>Pokemon <span style={{fontWeight: "bold"}}>{this.props.name}</span> catched!</h5>
                                                 <div>Give it a nickname</div>
-                                                <Input value={this.state.inputNickname} onChange={this.nicknameOnChange.bind(this)}/>
+                                                <Input id="nickname-input" value={this.state.inputNickname} onChange={this.nicknameOnChange.bind(this)}/>
                                                 <Button 
                                                     color="secondary"
                                                     onClick={this.modalToggle}

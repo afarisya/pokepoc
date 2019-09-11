@@ -54,9 +54,9 @@ export default class PokemonPagination extends React.Component {
 					<PaginationLink previous onClick={() => this.onClick(activePage-1)} />
 				</PaginationItem>
 				{ 
-					pages.map((page) => {
+					pages.map((page, index) => {
 						return (	
-							<PaginationItem active={ activePage === page ? true : false}>
+							<PaginationItem key={index} active={ activePage === page ? true : false}>
 								<PaginationLink onClick={() => this.onClick(page)}>
 									{page}
 								</PaginationLink>

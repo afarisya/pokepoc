@@ -29,7 +29,7 @@ import PokemonCard from './PokemonCard';
 import PokemonPagination from './PokemonPagination';
 
 // Actions
-import { reqMyPokemonList } from '../reducers/MyPokemonListReducers';
+import { reqMyPokemonList, clearMyPokemons } from '../reducers/MyPokemonListReducers';
 
 
 export class MyPokemonListPage extends React.Component {
@@ -58,13 +58,17 @@ export class MyPokemonListPage extends React.Component {
 		}
 	}
 
+    componentWillUnmount() {
+        store.dispatch(clearMyPokemons());
+    }
+
     renderRoute = () => {
         var pageNumber = 1;
 
         const searchObj = queryString.parse(this.state.searchQuery);
 
         if ( typeof searchObj.page !== 'undefined' ) {
-            pageNumber = searchObj.page;
+            pageNumber = parseInt(searchObj.page);
         }
 
         store.dispatch(reqMyPokemonList(pageNumber));
@@ -87,7 +91,7 @@ export class MyPokemonListPage extends React.Component {
                             <Spinner color="danger" style={{margin: "50% auto"}} />
                         </Row>
                         :
-                        ( this.props.pokemons.length === 0 ?
+                        ( this.props.totalPokemons === 0 ?
                             <Row className="pokemon-list-main-row">
                                 <Col xs="12">You haven't catch any pokemon</Col>
                             </Row>
@@ -98,9 +102,9 @@ export class MyPokemonListPage extends React.Component {
                                 </div>
                                 <Row className="pokemon-list-main-row">
                                     {
-                                        this.props.pokemons.map((pokemon) => {
+                                        this.props.pokemons.map((pokemon, index) => {
                                             return (
-                                                <Col className="pokemon-col" xs="6" sm="4" md="3" lg="2">
+                                                <Col key={index} className="pokemon-col" xs="6" sm="4" md="3" lg="2">
                                                     <PokemonCard 
                                                         id={pokemon.pokemonId} 
                                                         name={pokemon.pokemonName} 

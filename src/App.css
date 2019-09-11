@@ -2,6 +2,10 @@ body {
   background-color: rgba(0,0,0,0.025) !important;
 }
 
+.modal-open {
+  overflow: auto !important;
+}
+
 .App {
   text-align: center;
   padding-top: 100px;
@@ -55,7 +59,7 @@ body {
   color: #fff !important;
 }
 
-.navbar a:hover {
+.navbar .nav-link:hover {
   text-decoration: underline !important;
 }
 

@@ -16,7 +16,7 @@ import PokemonCard from './PokemonCard';
 import PokemonPagination from './PokemonPagination';
 
 // Actions
-import { reqPokemonList } from '../reducers/PokemonListReducers';
+import { reqPokemonList, clearPokemons } from '../reducers/PokemonListReducers';
 import { reqMyPokemonTotal } from '../reducers/MyPokemonListReducers';
 
 export class PokemonListPage extends React.Component {
@@ -48,6 +48,9 @@ export class PokemonListPage extends React.Component {
 		}
 	}
 
+    componentWillUnmount() {
+        store.dispatch(clearPokemons());
+    }
     renderRoute = () => {
         var pageNumber = 1;
 

@@ -142,6 +142,10 @@ export default function PokemonListReducers(state = initialState, action) {
         case CLEAR_POKEMON_LIST:
             return {
                 ...state,
+                activePage: 1,
+                offset: 0,
+                limit: 12,
+                totalPokemons: 0,
                 pokemons: []
             };
             
