@@ -49,7 +49,7 @@ describe("PokemonDetailPage", () => {
     });
 
     // it("should show 1 text 'Catched!' in #catch-btn if catched = true", () => { 
-    //     expect(page2.find('.catch-btn button').text()).toEqual("Catched!");
+    //     expect(page2.find('button').at(1).text()).toEqual("Catched!");
     // });
 
     // it("should show PokemonPagination on pokemon detail page if pokemons.length = 1", () => {  
