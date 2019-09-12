@@ -1,60 +1,112 @@
 // PokemonDetailPage.test.js
 
 import React from 'react';
-import { shallow } from 'enzyme';
-import { createIndexedDB } from '../../utils/IndexedDb';
-import { history } from '../../store'
-// require("fake-indexeddb/auto");
+import {
+    makeMountRender,
+    mockData,
+    reduxify,
+    snapshotify,
+    ticks
+} from '../../utils/test-utils';
 
 import PokemonDetailPage from '../PokemonDetailPage';
 
 
-describe("PokemonDetailPage", () => {
-    const page = shallow(
-        <PokemonDetailPage.WrappedComponent 
-            id="bulbasaur"
-            name="bulbasaur"
-            pictures={[]}
-            moves={[]}
-            types={[]}
-            catched={false}
-            nickname=""
-            match={ {params: "bulbasaur"} }
-        />
-    );
+const mockSuccessResponse = {};
+const mockJsonPromise = Promise.resolve(mockSuccessResponse);
+const mockFetchPromise = Promise.resolve({
+    json: () => mockJsonPromise,
+});
+jest.spyOn(global, 'fetch').mockImplementation(() => mockFetchPromise); 
 
-    it("should render pokemon detail page if not catched", () => {   
-        expect(page.getElements()).toMatchSnapshot();
+describe("PokemonDetailPage not catched", () => {
+    const wrapper = makeMountRender(
+        reduxify(
+            PokemonDetailPage,
+            {
+                match: {
+                    params: {
+                        pokemonId: "bulbasaur"
+                    }
+                }
+            },
+            {
+                PokemonDetailReducers: {
+                    id: "bulbasaur",
+                    name: "bulbasaur",
+                    pictures: [],
+                    moves: [],
+                    types: [],
+                    catched: false,
+                    nickname: ""
+                }
+            }
+        )
+    )();
+
+    it('should call get pokemons api', function() {
+        var targetUrl   = `https://pokeapi.co/api/v2/pokemon-form/bulbasaur/`;
+        var method      =  {"method": "GET"};
+
+        expect(global.fetch).toHaveBeenCalled();
+        expect(global.fetch).toHaveBeenCalledWith(targetUrl, method);
+    });
+
+    it('should matches snapshot', function() {
+        expect(snapshotify(wrapper)).toMatchSnapshot();
     });
 
     it("should show text 'bulbasaur' in #pokemon-detail-name", () => { 
-        expect(page.find('#pokemon-detail-name').text()).toEqual("bulbasaur");
+        expect(wrapper.find('#pokemon-detail-name').text()).toEqual("bulbasaur");
     });
 
-    const page2 = shallow(
-        <PokemonDetailPage.WrappedComponent 
-            id="bulbasaur"
-            name="bulbasaur"
-            pictures={[]}
-            moves={[]}
-            types={[]}
-            catched={true}
-            nickname="bulb"
-            match={ {params: "bulbasaur"} }
-        />
-    );
+    it("should show text 'Catch' in .catch-btn", () => { 
+        expect(wrapper.find('.catch-btn').first().text()).toEqual("Catch");
+    });
+});
 
-    it("should render pokemon detail page if catched", () => {   
-        expect(page.getElements()).toMatchSnapshot();
+describe("PokemonDetailPage catched", () => {
+    const wrapper = makeMountRender(
+        reduxify(
+            PokemonDetailPage,
+            {
+                match: {
+                    params: {
+                        pokemonId: "bulbasaur"
+                    }
+                }
+            },
+            {
+                PokemonDetailReducers: {
+                    id: "bulbasaur",
+                    name: "bulbasaur",
+                    pictures: [],
+                    moves: [],
+                    types: [],
+                    catched: true,
+                    nickname: "bulb"
+                }
+            }
+        )
+    )();
+
+    it('should call get pokemons api', function() {
+        var targetUrl   = `https://pokeapi.co/api/v2/pokemon-form/bulbasaur/`;
+        var method      =  {"method": "GET"};
+
+        expect(global.fetch).toHaveBeenCalled();
+        expect(global.fetch).toHaveBeenCalledWith(targetUrl, method);
     });
 
-    // it("should show 1 text 'Catched!' in #catch-btn if catched = true", () => { 
-    //     expect(page2.find('button').at(1).text()).toEqual("Catched!");
-    // });
+    it('should matches snapshot', function() {
+        expect(snapshotify(wrapper)).toMatchSnapshot();
+    });
 
-    // it("should show PokemonPagination on pokemon detail page if pokemons.length = 1", () => {  
-    //     expect(page2.find('PokemonPagination').length).toEqual(1);
-    // });
+    it("should show text 'bulbasaur' in #pokemon-detail-name", () => { 
+        expect(wrapper.find('#pokemon-detail-name').text()).toEqual("bulbasaur");
+    });
 
-    // expect(page.prop('activePage')).toEqual(1);
+    it("should show text 'Catched!' in .catch-btn", () => { 
+        expect(wrapper.find('.catch-btn').first().text()).toEqual("Catched!");
+    });
 });

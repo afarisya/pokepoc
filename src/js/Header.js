@@ -72,7 +72,7 @@ class Header extends React.Component {
             <Navbar fixed="top" light expand="md">
                 <NavbarBrand>
                     <Default>
-                        PocketPoc
+                        PokePoc
                     </Default>
                     <Mobile>
                         { this.state.latestUrl.indexOf("/my-pokemons") > -1 ?

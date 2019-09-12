@@ -26,6 +26,8 @@ const composedEnhancers = compose(
   ...enhancers
 )
 
+export const createStoreWithMiddleWare = composedEnhancers(createStore);
+
 const store = createStore(
   rootReducer,
   initialState,
