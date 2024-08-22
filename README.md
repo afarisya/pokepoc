@@ -1,7 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Live Demo
-https://pokepoc.herokuapp.com
+
+https://pokepoc.vercel.app/
 
 ## Available Scripts
 
