@@ -7,7 +7,7 @@
     "axios-mock-adapter": "^1.17.0",
     "bootstrap": "^4.3.1",
     "history": "^4.7.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
